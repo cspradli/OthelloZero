@@ -19,7 +19,32 @@ class Board():
     def __getIndexedItem__(self, indeX, indeY):
         print(self.pieces[indeX][indeY])
         return self.pieces[indeX][indeY]
+    
+    def display(self):
+        """" Display the board and the statistics of the ongoing game. """
+        print("    A  B  C  D  E  F  G  H")
+        print("    ----------------------")
+        for y in range(7,-1,-1):
+            # Print the row number
+            print(str(y+1) + ' |', end = ''),
+            for x in range(8):
+                # Get the piece to print
+                piece = self.pieces[x][y]
+                if piece == -1: 
+                    print(" B ", end = ''),
+                elif piece == 1: 
+                    print(" W ", end = ''),
+                else:
+                    print(" . ", end = ''),
+            print('| ' + str(y+1))
+        print("    ----------------------")
+        print("    A  B  C  D  E  F  G  H")
+
+        #print "Black: " + str(self.count(-1)) + ' / ' + str(time[-1])
+        #print "White: " + str(self.count(1)) + ' / ' + str(time[1]) + '\n'
 
 if __name__ == '__main__':
     board = Board()
     board.__getIndexedItem__(3,3)
+    board.display()
+
