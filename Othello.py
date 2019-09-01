@@ -20,6 +20,20 @@ class Board():
         print(self.pieces[indeX][indeY])
         return self.pieces[indeX][indeY]
     
+    def countNum(self):
+        countW = 0
+        countB = 0
+        for y in range(8):
+            for x in range(8):
+                piece = self.pieces[x][y]
+                if piece == -1:
+                    countB += 1
+                elif piece == 1:
+                    countW += 1
+        print("White count: " + str(countW))
+        print("Black count: " + str(countB))
+        return countW, countB
+    
     def display(self):
         """" Display the board and the statistics of the ongoing game. """
         print("    A  B  C  D  E  F  G  H")
@@ -47,4 +61,5 @@ if __name__ == '__main__':
     board = Board()
     board.__getIndexedItem__(3,3)
     board.display()
+    board.countNum()
 
