@@ -23,9 +23,15 @@ class Board():
     def generateMoves(self):
         #Looks for valid moves at current board state#
         #Returns a list of moves#
+        color = self.color
+
+        
     
     def findMoves(self, originPiece, direction):
         #Finds moves based on origin tuple given and the direction wanted to go#
+        (x, y) = originPiece
+        
+
 
     def countNum(self):
         # Counts the number of stones each player has
