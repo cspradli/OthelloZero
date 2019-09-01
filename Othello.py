@@ -2,8 +2,8 @@ class Board():
     # All 8 directions for the agent to look/go
     directions = [(1,1), (1,0), (1,-1), (0,-1), (-1,-1), (-1, 0), (-1,-1), (0,1)]
 
-    def __init__(self):
-
+    def __init__(self, color):
+        self.color = color
         #initializes 2-D array showing the pieces
         self.pieces = [None]*8
         for i in range(8):
@@ -20,6 +20,9 @@ class Board():
         print(self.pieces[indeX][indeY])
         return self.pieces[indeX][indeY]
     
+    def findMoves(self, originPiece, direction):
+        #Finds moves based on origin tuple given and the direction wanted to go#
+
     def countNum(self):
         # Counts the number of stones each player has
         # Returns both counts
@@ -57,8 +60,9 @@ class Board():
         print("    A  B  C  D  E  F  G  H")
 
 if __name__ == '__main__':
-    board = Board()
+    board = Board((3, 3))
     board.__getIndexedItem__(3,3)
     board.display()
     board.countNum()
+    board.findMoves((3,3), (1,1))
 
