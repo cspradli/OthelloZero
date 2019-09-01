@@ -54,9 +54,6 @@ class Board():
         print("    ----------------------")
         print("    A  B  C  D  E  F  G  H")
 
-        #print "Black: " + str(self.count(-1)) + ' / ' + str(time[-1])
-        #print "White: " + str(self.count(1)) + ' / ' + str(time[1]) + '\n'
-
 if __name__ == '__main__':
     board = Board()
     board.__getIndexedItem__(3,3)
