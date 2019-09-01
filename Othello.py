@@ -1,5 +1,5 @@
 class Board():
-
+    # All 8 directions for the agent to look/go
     directions = [(1,1), (1,0), (1,-1), (0,-1), (-1,-1), (-1, 0), (-1,-1), (0,1)]
 
     def __init__(self):
@@ -21,6 +21,8 @@ class Board():
         return self.pieces[indeX][indeY]
     
     def countNum(self):
+        # Counts the number of stones each player has
+        # Returns both counts
         countW = 0
         countB = 0
         for y in range(8):
@@ -35,7 +37,7 @@ class Board():
         return countW, countB
     
     def display(self):
-        """" Display the board and the statistics of the ongoing game. """
+        # Display the board #
         print("    A  B  C  D  E  F  G  H")
         print("    ----------------------")
         for y in range(7,-1,-1):
