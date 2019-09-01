@@ -20,6 +20,10 @@ class Board():
         print(self.pieces[indeX][indeY])
         return self.pieces[indeX][indeY]
     
+    def generateMoves(self):
+        #Looks for valid moves at current board state#
+        #Returns a list of moves#
+    
     def findMoves(self, originPiece, direction):
         #Finds moves based on origin tuple given and the direction wanted to go#
 
