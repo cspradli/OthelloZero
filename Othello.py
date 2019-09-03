@@ -16,9 +16,8 @@ class Board():
         self.pieces[4][4] = 1
         print(self.pieces)
 
-    def __getIndexedItem__(self, indeX, indeY):
-        print(self.pieces[indeX][indeY])
-        return self.pieces[indeX][indeY]
+    def __getitem__(self, index):
+        return self.pieces[index]
     
     def generateMoves(self):
         #Looks for valid moves at current board state#
