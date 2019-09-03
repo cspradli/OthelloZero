@@ -1,0 +1,57 @@
+class Board
+    directions = (1,1), (1,0), (1,-1), (0,-1), (-1,-1), (-1, 0), (-1,-1), (0,1)
+
+    initializeBoard(self, color)
+        self.color = color
+        self.pieces = None*8
+        for i in range 8
+            self.pieces[i] = [0]*8
+
+        #Setup of initial pieces
+        self.pieces[3][4] = -1
+        self.pieces[4][3] = -1
+        self.pieces[3][3] = 1
+        self.pieces[4][4] = 1
+    
+    getValidMoves(self)
+        color = self.color
+        validMoves = set()
+        for x in range(8)
+            for y in range(8)
+                if self.pieces[x][y] == color
+                    newValidMoves = findAllMoves((x,y))
+                validMoves.update(newValidMoves)
+        return list of validMoves
+    
+    findAllMoves(self, (x,y))
+        color = self.color
+        possibleMoves[]
+        for direction in directions
+            oneMove = findMove((x,y), direction)
+            if oneMove is validMoves
+                possibleMoves.append(oneMove)
+        return possibleMoves
+    
+    findMove(origin, direction)
+        x, y = origin
+        color = self.color
+        flipMoves = []
+        for x,y in incrementMove(origin, direction)
+            if self.pieces[x][y] == color and flips
+                return x,y
+            else if self.pieces[x][y] == -(color)
+                add (x, y) to flipMoves[]
+            else if self.pieces[x][y] == color
+                return None
+    
+    incrementMove(move, direction)
+        moves = list()
+        x = moveX
+        y = moveY
+        x+= direcX
+        y+= direcY
+        while 0<=x<8 and 0<=y<8
+            moves.append(x, y)
+            x += direcX
+            y += direcY
+        return moves
