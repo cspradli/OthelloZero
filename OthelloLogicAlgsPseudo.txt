@@ -13,8 +13,17 @@ class Board
         self.pieces[3][3] = 1
         self.pieces[4][4] = 1
     
-    getValidMoves(self)
-        color = self.color
+    makeFlips(self, color, move, origin):
+        flipList = [origin]
+        for x,y in self.incrementMove(origin, direction)
+            if self.pieces[x][y] == color and len(flips < 1):
+                return []
+            elif self.pieces[x][y] == -(color):
+                flipList.append((x,y))
+            elif self.pieces[x][y] == color and len(flips > 1):
+                return flipList
+
+    getValidMoves(self, color)
         validMoves = set()
         for x in range(8)
             for y in range(8)

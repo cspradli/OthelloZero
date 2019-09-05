@@ -1,0 +1,60 @@
+class OthelloGame{
+    oppColor = 0
+    color = 0
+    def getInput(stdin):
+        if len(stdin) == 3:
+            if stdin[2] == 'W' : oppColor = -1, color = 1
+            if stdin[2] == 'B' : oppColor = 1, color = -1
+        if len(stdin) == 1:
+            if stdin == 'n'
+                board.endGame()
+            if stdin == 'B' || stdin == 'W'
+                #opponent passes
+                findMoves(color)
+        if len(stdin) == 5:
+            executeMove(oppColor)
+
+    def findMoves(color):
+        out = ''
+        if color == 1:
+            out.append('W')
+        if color == -1:
+            out.append('B')
+        validMoves = board.getValidMoves(color)
+        if len(validMoves) < 0:
+            return out
+        if len(validMoves) > 0:
+            move = validMoves[0]
+            board.executeMove(move, color)
+            out.append(translateToString(move.x))
+            out.append(' ')
+            out.append(move.y - 1)
+        return out
+
+    def translateX(inputX):
+        switch(inputX):
+            case 0:
+                outX = 'a'
+                break
+            case 1:
+                outX = 'b'
+                break
+            case 2:
+                outX = 'c'
+                break
+            case 3:
+                outX = 'd'
+                break
+            case 4:
+                outX = 'e'
+                break
+            case 5:
+                outX = 'f'
+                break
+            case 6:
+                outX = 'g'
+                break
+            case 7:
+                outX = 'h'
+                break
+}
