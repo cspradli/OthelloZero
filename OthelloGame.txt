@@ -9,7 +9,7 @@ class OthelloGame{
 
     /*
      *
-     * given input from commandline, getInput parses on which command to execute pass/endgame/move/execute
+     * Given input from commandline, getInput parses on which command to execute pass/endgame/move/execute
      *
      */
     def getInput(stdin):
@@ -23,7 +23,7 @@ class OthelloGame{
                 #opponent passes
                 findMoves(color)
         if len(stdin) == 5:
-            x = translateX(stdin[2])
+            x = trns.translateStringToX(stdin[2])
             y = int(stdin[4]) - 1
             board.executeMove(oppColor, (x,y))
 
@@ -32,6 +32,7 @@ class OthelloGame{
      * Given a color, finds the moves based on board.getValidMoves() function 
      * Outputs command to referee on what move self is makign
      * Ex output B e 4, W a 1, etc
+     *
      */
     def findMoves(color):
         out = ''
@@ -45,39 +46,8 @@ class OthelloGame{
         if len(validMoves) > 0:
             move = validMoves[0]
             board.executeMove(move, color)
-            out.append(translateToString(move.x))
+            out.append(trns.translateXtoString(move.x))
             out.append(' ')
-            out.append(move.y - 1)
+            out.append(move.y + 1)
         return out
-    /*
-     *
-     * Translates the input into array-friendly language
-     *
-     */
-    def translateX(inputX):
-        switch(inputX):
-            case 0:
-                outX = 'a'
-                break
-            case 1:
-                outX = 'b'
-                break
-            case 2:
-                outX = 'c'
-                break
-            case 3:
-                outX = 'd'
-                break
-            case 4:
-                outX = 'e'
-                break
-            case 5:
-                outX = 'f'
-                break
-            case 6:
-                outX = 'g'
-                break
-            case 7:
-                outX = 'h'
-                break
 }

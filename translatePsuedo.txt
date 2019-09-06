@@ -1,0 +1,64 @@
+
+/*
+ *
+ * Translates the array param X into string
+ *
+ */
+def translateXToString(inputX):
+    switch(inputX):
+        case 0:
+            outX = 'a'
+            break
+        case 1:
+            outX = 'b'
+            break
+        case 2:
+            outX = 'c'
+            break
+        case 3:
+            outX = 'd'
+            break
+        case 4:
+            outX = 'e'
+            break
+        case 5:
+            outX = 'f'
+            break
+        case 6:
+            outX = 'g'
+            break
+        case 7:
+            outX = 'h'
+            break
+
+/*
+ *
+ * Translates the string to int
+ *
+ */
+def translateStringToX(inputX):
+    switch(inputX):
+        case 'a':
+            outX = 0
+            break
+        case 'b':
+            outX = 1
+            break
+        case 'c':
+            outX = 2
+            break
+        case 'd':
+            outX = 3
+            break
+        case 'e':
+            outX = 4
+            break
+        case 'f':
+            outX = 5
+            break
+        case 'g':
+            outX = 6
+            break
+        case 'h':
+            outX = 7
+            break
