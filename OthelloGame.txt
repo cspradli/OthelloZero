@@ -1,6 +1,13 @@
 class OthelloGame{
+
     oppColor = 0
     color = 0
+
+    /*
+     *
+     * given input from commandline, getInput parses on which command to execute pass/endgame/move/execute
+     *
+     */
     def getInput(stdin):
         if len(stdin) == 3:
             if stdin[2] == 'W' : oppColor = -1, color = 1
@@ -14,6 +21,12 @@ class OthelloGame{
         if len(stdin) == 5:
             executeMove(oppColor)
 
+    /*
+     *
+     * Given a color, finds the moves based on board.getValidMoves() function 
+     * Outputs command to referee on what move self is makign
+     * Ex output B e 4, W a 1, etc
+     */
     def findMoves(color):
         out = ''
         if color == 1:
@@ -30,7 +43,11 @@ class OthelloGame{
             out.append(' ')
             out.append(move.y - 1)
         return out
-
+    /*
+     *
+     * Translates the input into array-friendly language
+     *
+     */
     def translateX(inputX):
         switch(inputX):
             case 0:
