@@ -1,7 +1,11 @@
+from OthelloLogic import board
+import translate as trans
+
 class OthelloGame{
 
     oppColor = 0
     color = 0
+    board.__init__()
 
     /*
      *
@@ -9,9 +13,9 @@ class OthelloGame{
      *
      */
     def getInput(stdin):
-        if len(stdin) == 3:
-            if stdin[2] == 'W' : oppColor = -1, color = 1
-            if stdin[2] == 'B' : oppColor = 1, color = -1
+        if len(stdin) == 3 or len == 5:
+            if stdin[0] == 'W' : oppColor = -1, color = 1
+            if stdin[0] == 'B' : oppColor = 1, color = -1
         if len(stdin) == 1:
             if stdin == 'n'
                 board.endGame()
@@ -19,7 +23,9 @@ class OthelloGame{
                 #opponent passes
                 findMoves(color)
         if len(stdin) == 5:
-            executeMove(oppColor)
+            x = translateX(stdin[2])
+            y = int(stdin[4]) - 1
+            board.executeMove(oppColor, (x,y))
 
     /*
      *
