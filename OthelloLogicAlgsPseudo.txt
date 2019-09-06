@@ -1,6 +1,15 @@
 class Board
+    /* 
+     * Static list of directions to look
+     */
     directions = (1,1), (1,0), (1,-1), (0,-1), (-1,-1), (-1, 0), (-1,-1), (0,1)
 
+    /*
+     *
+     * Initializes board with pieces and 2-D array of pieces representing board state with 
+     * 1 == White -1 == Black and 0 == Empty square
+     *
+     */
     initializeBoard(self, color)
         self.color = color
         self.pieces = None*8
@@ -13,6 +22,12 @@ class Board
         self.pieces[3][3] = 1
         self.pieces[4][4] = 1
     
+    /*
+     *
+     * Given move, direction, color parameters
+     * Returns a list of pieces that need to be flipped
+     *
+     */
     makeFlips(self, color, move, origin):
         flipList = [origin]
         for x,y in self.incrementMove(origin, direction)
@@ -23,7 +38,28 @@ class Board
             elif self.pieces[x][y] == color and len(flips > 1):
                 return flipList
 
-    getValidMoves(self, color)
+    /*
+     *
+     * Executes move, looks in all 8 directions for a move allowing flips given the origin (new piece)
+     * Flips each piece in the list
+     *
+     */
+    executeMove(self, color, move)
+        flipMoves = []
+        for direction in self.directions
+            flipList = self.makeFlips(color, move, direction))
+            if flipList > 0:
+                    flipMoves = flipList
+        for x, y in flipMoves
+            self.pieces[x][y] = color
+
+    /*
+     *
+     * Given a color, function looks at whole board and determines legal moves for each piece of given color
+     * Returns a list of moves which are valid for B/W
+     *
+     */  
+    def getValidMoves(self, color)
         validMoves = set()
         for x in range(8)
             for y in range(8)
@@ -32,18 +68,28 @@ class Board
                 validMoves.update(newValidMoves)
         return list of validMoves
     
-    findAllMoves(self, (x,y))
-        color = self.color
+    /*
+     *
+     * Given a origin coordinate, returns all possible moves for that x,y to make
+     * Returns a list of possible moves based off of one origin piece
+     *
+     */
+    findAllMoves(self, color, (x,y))
         possibleMoves[]
         for direction in directions
             oneMove = findMove((x,y), direction)
             if oneMove is validMoves
                 possibleMoves.append(oneMove)
         return possibleMoves
-    
-    findMove(origin, direction)
+        
+    /*
+     *
+     * Gives end coordinate for valid move based off of origin piece and direction to look
+     * Returns list of end coords based off of origin and direction
+     *
+     */
+    findMove(self, color, origin, direction)
         x, y = origin
-        color = self.color
         flipMoves = []
         for x,y in incrementMove(origin, direction)
             if self.pieces[x][y] == color and flips
@@ -53,6 +99,13 @@ class Board
             else if self.pieces[x][y] == color
                 return None
     
+     /*
+     *
+     * Static method
+     * Given a move and direction returns a list of pices that follow in that direction, ends search at end of board
+     * Returns all list of moves/spaces in certain direction
+     *
+     */
     incrementMove(move, direction)
         moves = list()
         x = moveX
