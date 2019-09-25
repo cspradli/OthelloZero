@@ -3,9 +3,11 @@ class Board():
     directions = [(1,1), (1,0), (1,-1), (0,-1), (-1,-1), (-1, 0), (-1,-1), (0,1)]
 
     def __init__(self, color):
+
         self.color = color
         #initializes 2-D array showing the pieces
         self.pieces = [None]*8
+
         for i in range(8):
             self.pieces[i] = [0]*8
         
@@ -24,71 +26,90 @@ class Board():
         #Returns a list of moves#
         color = self.color
 
-    def makeFlips(self, color, move, origin):
+    def makeFlips(self, color, direction, origin):
+
         flipList = [origin]
+
         for x,y in self.incrementMove(origin, direction):
-            if self.pieces[x][y] == color and len(flipList) < 1:
-                return []
-            elif self.pieces[x][y] == -(color):
+            print("Working on ")
+            print(self.pieces[x][y])
+            if self.pieces[x][y] == 0 :
+                print("None found")
+                print(flipList)
+                return flipList
+
+            if self.pieces[x][y] == -color:
+                print("Appended")
                 flipList.append((x,y))
+
             elif self.pieces[x][y] == color and len(flipList) > 1:
+                print(flipList)
                 return flipList
     
 
-    def executeMove(self color, move):
+    def executeMove(self, color, move):
         flipMoves = []
-        for directions in self.directions:
-            flipList = self.makeFlips(color, move, direction)
-            if flipList > 0:
+        for direction in self.directions:
+            flipList = self.makeFlips(color, direction, move)
+            if len(flipList) > 0:
                 flipMoves = flipList
         for x,y in flipMoves:
             self.pieces[x][y] = color
 
     def getValidMoves(self, color):
+
         validMoves = set()
+
         for x in range(8):
             for y in range(8):
-                if self.pieces[x][y] == color:
-                    newValidMoves = findAllMoves((x,y))
-                validMoves.update(newValidMoves)
+                if self.pieces[x][y]==color:
+                    newValidMoves = self.findAllMoves(color, (x,y))
+                    validMoves.update(newValidMoves)
+
         return list(validMoves)
 
-    def findAllMoves(self, color, (x,y)):
+    def findAllMoves(self, color, origin):
+
         possibleMoves = []
-        for direction in directions:
-            oneMove = findMove((x,y), direction)
-            #if oneMove is validMove
+        x, y = origin
+
+        if color==0:
+            return None
+        
+        for direction in self.directions:
+            oneMove = self.findMoves(origin, direction)
+            if oneMove:
                 possibleMoves.append(oneMove)
+
         return possibleMoves
 
     
-    def findMove(self, originPiece, direction):
+    def findMoves(self, originPiece, direction):
         #Finds moves based on origin tuple given and the direction wanted to go#
         x, y = originPiece
         flipMoves = []
-        for x,y in incrementMove(origin, direction):
+
+        for x,y in self.incrementMove(originPiece, direction):
             if self.pieces[x][y] == color and flipMoves:
-                return x,y
+                return (x,y)
             elif self.pieces[x][y] == -(color):
                 flipMoves.append((x,y))
             elif self.pieces[x][y] == color:
                 return None
         
-    def incrementMove(move, direction):
+    def incrementMove(self, move, direction):
         moves = list()
         x, y = move
         direcX, direcY = direction
-        print(x)
-        print(y)
-        print(direcX)
-        print(direcY)
         x+=direcX
         y+=direcY
         while x>=0 and x<8 and y>=0 and y<8:
+            print(x, y)
             moves.append((x,y))
             x+=direcX
             y+=direcY
         print(moves)
+        return moves
 
     def countNum(self):
         # Counts the number of stones each player has
@@ -127,9 +148,10 @@ class Board():
         print("    A  B  C  D  E  F  G  H")
 
 if __name__ == '__main__':
-    board = Board((3, 3))
-    board.__getIndexedItem__(3,3)
+    board = Board(1)
     board.display()
     board.countNum()
-    board.findMoves((3,3), (1,1))
-
+    #board.incrementMove((3,3), (1,1))
+    board.makeFlips(1, (0,1), (3,3))
+    board.executeMove(1, (3,5))
+    board.display()
