@@ -7,7 +7,7 @@ class Board():
     def __init__(self):
 
         #initializes 2-D array showing the pieces
-        print("(Board init properly)")
+        print("C (Board init properly)")
         self.pieces = [None]*8
         for i in range(8):
             self.pieces[i] = [0]*8

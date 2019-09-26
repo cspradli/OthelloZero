@@ -1,35 +1,28 @@
 from OthelloGame import OthelloGame as Game
 from OthelloLogic import Board
-
-class main():
-
-    def getInput(self):
-        inp = input()
-        if inp.startswith('C'):
-            return None
-        elif len(inp) == 1:
-            if inp == 'n'
-                print("End game")
-            if inp == 'B' or inp == 'W'
-                #opponent passes
-                self.makeMoves()
+from OthelloIO import get_char_col, translateX
 
 if __name__ == "__main__":
+    currentPlayer = 0
+    ME = 1
+    OPP = -1
     bd = Board()
     g = Game()
     color = g.initColor()
-    #Start current player as black
-    if color == -1:
-        currPlayer = -1
-    while (not g.isOver(bd, color)):
-        #unless current player needs to be white
-        if color == 1:
-            currPlayer = 1
-        if currPlayer == -1:
+    print(get_char_col('b'))
+    """if color == -1:
+        currentPlayer = ME
+    else:
+        currentPlayer = OPP
+
+    while (g.isOver == False):
+        if currentPlayer == ME:
             move = g.makeMove(bd, color)
-            currPlayer = 1
+            g.executeMove(bd, color, move)
         else:
-            move = g.getMove()
-            currPlayer = -1
-        g.executeMove(bd, color, move)
-    g.countNum(bd)
+            move = g.getMove(bd, -color)
+            g.executeMove(bd, -color, move)
+        g.display(bd)
+        g.countNum(bd)
+        currentPlayer = -1*currentPlayer #switch players     
+    g.countNum(bd)"""
