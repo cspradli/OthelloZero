@@ -4,10 +4,20 @@ from OthelloIO import get_col_char
 import numpy as np
 
 class OthelloGame():
+
     def __init__(self):
         print("(Othello initiated)")
-        #board = Board()
     
+    def initColor(self):
+        inp = input()
+        if inp == '| B':
+            gameColor = -1
+            print("R B")
+        else:
+            gameColor = 1
+            print("R W")
+        return gameColor
+
     def getActionState(self):
         return ((8*8)+1)
     
@@ -19,8 +29,8 @@ class OthelloGame():
             print("(No valid moves)")
             return np.array(validMoves)
         return legal_moves
-    
-    def makeMoves(self, board, color):
+        
+    def makeMove(self, board, color):
         out = []
         if color == 1:
             out.append('W ')
@@ -29,17 +39,24 @@ class OthelloGame():
         validMoves = board.generateMoves(color)
         if len(validMoves) < 0:
             print(''.join(out))
+            return None
         if len(validMoves) > 0:
             move = validMoves.pop()
-            board.executeMove(color, move)
             x,y = move
             out.append(get_col_char(x))
             out.append(' ')
             out.append(str(y + 1))
             print(''.join(out))
+            return move
 
-    def executeMove(board, color, move):
+    def executeMove(self, board, color, move):
         board.executeMove(color, move)
+
+    def isOver(self, board, color):
+        if len(board.generateMoves(color)> 0) or len(board.generateMoves(-color)) > 0:
+            return False
+        else:
+            return True
 
     def countNum(self, board):
         # Counts the number of stones each player has
