@@ -117,3 +117,29 @@ class Board
             x += direcX
             y += direcY
         return moves
+
+generate Movelist(player)
+oppPlayer = -oppPlayer
+for each empty space (current)
+    for each direction
+        pos = current + direction
+        if board[position] == oppPlayer
+            while Board[pos] == oppPlayer
+                pos += direction
+            if board[pos] == player
+                current = move  
+                moves.append(current)
+
+def generateMove(player):
+    oppPlayer = -oppPlayer
+    for current in self.getEmptySquares():
+        for direction in self.directions:
+            position = tuple(np.add(current, direction))
+            x,y = position
+            if self.pices[x][y] == oppPlayer and x>=0 and x<8 and y>=0 and y<8:
+                while self.pices[x][y] == oppPlayer:
+                    position = tuple(np.add(position, direction))
+                    x,y = position
+                    if self.pices[x][y] == player:
+                        current = (x,y)
+                        moves.append(current)

@@ -1,3 +1,5 @@
+import numpy as np
+
 class Board():
     # All 8 directions for the agent to look/go
     directions = [(1,1), (1,0), (1,-1), (0,-1), (-1,-1), (-1, 0), (-1,1), (0,1)]
@@ -36,9 +38,27 @@ class Board():
             for x in range(8):
                 if self.pieces[x][y] == 0:
                     emptySquares.append((x,y))
-        print(emptySquares)
         return emptySquares
         
+    def getMovesBasedEmpty(self, color):
+        moveList = list()
+        oppPlayer = -color
+        for emptySquare in self.getEmptySquares():
+            for direction in self.directions:
+                direcX, direcY = direction
+                possMoves = self.incrementMove(emptySquare, direction)
+                for move in possMoves:
+                    x,y = move
+                    if self.pieces[x][y] == -color:
+                        continue
+                    elif self.pieces[x][y] == 0:
+                        break
+                    if self.pieces[x][y] == color and self.pieces[x-direcX][y-direcY] != 0 and self.pieces[x-direcX][y-direcY] != color:
+                        moveList.append(emptySquare)   
+        print("Moves for", color, end=' ')
+        print(moveList)
+        return moveList
+
     def makeFlips(self, color, direction, origin):
         #Gets a list of flips given color, direction, and origin
         flipList = [origin]
@@ -62,41 +82,6 @@ class Board():
                 flipMoves = flipList
         for x,y in flipMoves:
             self.pieces[x][y] = color
-
-    def getValidMoves(self, color):
-        #Finds all valid moves given a color#
-        validMoves = set()
-        print("in valid moves")
-        for square in self.getSquares(color):
-            print("squares- ")
-            print(square)
-            newmoves = self.findAllMoves(color, square)
-            validMoves.update(newmoves)
-        return list(validMoves)
-
-    def findAllMoves(color, origin):
-        possibleMoves = []
-        if color==0:
-            return None
-        for direction in self.directions:
-            oneMove = self.findMoves(color, origin, direction)
-            if oneMove:
-                possibleMoves.append(oneMove)
-        return possibleMoves
-
-    
-    def findMoves(self, color, originPiece, direction):
-        #Finds the endpoint of a legal move given move and direction#
-        x,y = originPiece
-        flipMoves = []
-
-        for x,y in Board.incrementMove(originPiece, direction):
-            if self.pieces[x][y] == 0 and flipMoves:
-                return (x, y)
-            elif (self.pieces[x][y] == color or (self.pieces[x][y] == 0 and not flipMoves)):
-                return None
-            elif self[x][y].pieces == -color:
-                flipMoves.append((x,y))
     
     @staticmethod
     def incrementMove(move, direction):
@@ -109,7 +94,6 @@ class Board():
             moves.append((x,y))
             x+=direcX
             y+=direcY
-        print(moves)
         return moves
 
     def countNum(self):
@@ -134,17 +118,18 @@ class Board():
         print("    ----------------------")
         for y in range(7,-1,-1):
             # Print the row number
-            print(str(y+1) + ' |', end = ''),
+            print(str(y) + ' |', end = ''),
             for x in range(8):
                 # Get the piece to print
-                piece = self[x][y]
+                piece = self.pieces[x][y]
+                print("(", x, y, ")",  end = ''),
                 if piece == -1: 
                     print(" B ", end = ''),
                 elif piece == 1: 
                     print(" W ", end = ''),
                 else:
                     print(" . ", end = ''),
-            print('| ' + str(y+1))
+            print('| ' + str(y))
         print("    ----------------------")
         print("    A  B  C  D  E  F  G  H")
 
@@ -154,6 +139,7 @@ if __name__ == '__main__':
     #board.countNum()
     #board.incrementMove((3,3), (1,1))
     board.getEmptySquares()
+    board.getMovesBasedEmpty(1)
     #board.getValidMoves(1)
     #board.makeFlips(1, (0,1), (3,3))
     #board.executeMove(1, (3,5))
