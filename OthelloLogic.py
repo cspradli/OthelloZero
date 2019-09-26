@@ -18,21 +18,11 @@ class Board():
         self.pieces[4][4] = 1
 
     def __getitem__(self, index):
+        """Add indexing ability of board"""
         return self.pieces[index]
-
-
-    def getSquares(self, color):
-        squares = []
-        for y in range(8):
-            #print(y)
-            for x in range(8):
-                #print(x)
-                if self.pieces[x][y] == color:
-                    squares.append((x,y))
-                    #print(x, y)
-        #print(squares)
     
     def getEmptySquares(self):
+        """ Gets a litst of empty squares in the entire board, returns that list """
         emptySquares = list()
         for y in range(8):
             for x in range(8):
@@ -40,13 +30,16 @@ class Board():
                     emptySquares.append((x,y))
         return emptySquares
         
-    def getMovesBasedEmpty(self, color):
+    def generateMoves(self, color):
+        """ Generates move based off of all empty quares, takes color in the form of -1,1 """
         moveList = list()
-        oppPlayer = -color
         for emptySquare in self.getEmptySquares():
             for direction in self.directions:
                 direcX, direcY = direction
+
+                #Gets all possible moves no matter legality
                 possMoves = self.incrementMove(emptySquare, direction)
+
                 for move in possMoves:
                     x,y = move
                     if self.pieces[x][y] == -color:
@@ -54,7 +47,8 @@ class Board():
                     elif self.pieces[x][y] == 0:
                         break
                     if self.pieces[x][y] == color and self.pieces[x-direcX][y-direcY] != 0 and self.pieces[x-direcX][y-direcY] != color:
-                        moveList.append(emptySquare)   
+                        moveList.append(emptySquare)  
+
         print("Moves for", color, end=' ')
         print(moveList)
         return moveList
@@ -62,16 +56,19 @@ class Board():
     def makeFlips(self, color, direction, origin):
         #Gets a list of flips given color, direction, and origin
         flipList = [origin]
-
-        for x,y in self.incrementMove(origin, direction):
+        flips = self.incrementMove(origin, direction)
+        print(flips)
+        for x,y in flips:
             print("Working on ")
-            print(self.pieces[x][y])
             if self.pieces[x][y] == -color:
+                print("appended")
                 flipList.append((x,y))
             elif (self.pieces[x][y] == 0 or (self[x][y] == color and len(flipList) == 1)):
+                print("nothing here")
                 break
             elif self.pieces[x][y] == color and len(flipList) > 1:
-                return flips
+                print(flipList)
+                return flipList
         return []
 
     def executeMove(self, color, move):
@@ -136,11 +133,11 @@ class Board():
 if __name__ == '__main__':
     board = Board()
     board.display()
-    #board.countNum()
-    #board.incrementMove((3,3), (1,1))
     board.getEmptySquares()
-    board.getMovesBasedEmpty(1)
-    #board.getValidMoves(1)
-    #board.makeFlips(1, (0,1), (3,3))
-    #board.executeMove(1, (3,5))
-    #board.getSquares(1)
+    board.generateMoves(-1)
+    board.generateMoves(1)
+    board.executeMove(-1, (3,2))
+    board.display()
+    board.generateMoves(1)
+    board.executeMove(1, (2,2))
+    board.display()
