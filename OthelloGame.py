@@ -1,3 +1,10 @@
+"""
+    OthelloZero: OthelloGame
+    Author: Caleb Spradlin
+    Date: 27/09/19
+    This class is the driver of the board, gets and outputs to Logic class, as well as over checking and in/out operations
+"""
+
 from __future__ import print_function
 from OthelloLogic import Board
 from OthelloIO import get_col_char, get_char_col, split_string
