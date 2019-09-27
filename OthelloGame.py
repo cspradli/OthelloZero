@@ -54,7 +54,7 @@ class OthelloGame():
                 x = get_char_col(char)
             elif char.isnumeric():
                 y = int(char)-1
-        print("C x = ", x, " y = ", y)
+        #print("C x = ", x, " y = ", y)
         return((x,y))
        
 
@@ -82,12 +82,13 @@ class OthelloGame():
         """ Executes move based on inputs given """
         board.executeMove(color, move)
 
-    def isOver(self, board, color):
+    def isNotOver(self, board, color):
         """ Checks if game is over based on amount of moves each side has """
-        if len(board.generateMoves(color)> 0) or len(board.generateMoves(-color)) > 0:
-            return False
-        else:
+        if (board.generateMoves(color) is not None) and (board.generateMoves(-color) is not None):
+            # Game has not ended
             return True
+        else:
+            return False
 
     def countNum(self, board):
         """Counts the number of stones each player has

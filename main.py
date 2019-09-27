@@ -25,14 +25,17 @@ if __name__ == "__main__":
     else:
         currentPlayer = OPP
 
-    while (g.isOver == False):
+    while g.isNotOver is not False:
         if currentPlayer == ME:
             move = g.makeMove(bd, color)
-            g.executeMove(bd, color, move)
+            if move is not None:
+                g.executeMove(bd, color, move)
         else:
             move = g.getMove(bd, -color)
-            g.executeMove(bd, -color, move)
+            if move is not None:
+                g.executeMove(bd, -color, move)
         g.display(bd)
         g.countNum(bd)
         currentPlayer = -1*currentPlayer #switch players     
+    print("C (Game over)")
     g.countNum(bd)
