@@ -1,6 +1,6 @@
 from __future__ import print_function
 from OthelloLogic import Board
-from OthelloIO import get_col_char, get_char_col
+from OthelloIO import get_col_char, get_char_col, split_string
 import numpy as np
 
 class OthelloGame():
@@ -35,17 +35,21 @@ class OthelloGame():
     def getMove(self, board, color):
         """ Gets a move based on input """
         inp = input()
-        if inp.startswith('C'):
-            return None
-        elif len(inp) == 1:
-            if inp == 'n':
+        iterList = iter(split_string(inp))
+        for char in split_string(inp):
+            if char == 'C':
+                return None
+            elif char == 'n':
                 print("End game")
-            if inp == 'B' or inp == 'W':
-                #opponent passes
-                self.makeMoves()
-        elif len(inp) == 5:
-            
-            print(get_char_col(inp))
+            elif char == 'B' or char == 'W':
+                self.makeMove(board, color)
+            elif char.isalpha() and char.islower():
+                x = get_char_col(char)
+            elif char.isnumeric():
+                y = int(char)-1
+        print("C x = ", x, " y = ", y)
+        return((x,y))
+       
 
     def makeMove(self, board, color):
         """Generates move and string to output """
@@ -100,17 +104,16 @@ class OthelloGame():
         print("C (    ----------------------     )")
         for y in range(7,-1,-1):
             # Print the row number
-            print("C (", str(y) + ' |', end = ''),
+            print("C (", str(y+1) + ' |', end = ''),
             for x in range(8):
                 # Get the piece to print
                 piece = board.pieces[x][y]
-                print("C (", x, y, ")",  end = ''),
                 if piece == -1: 
                     print(" B ", end = ''),
                 elif piece == 1: 
                     print(" W ", end = ''),
                 else:
                     print(" . ", end = ''),
-            print('| ' + str(y), ")")
+            print('| ' + str(y + 1), ")")
         print("C (    ----------------------     )")
         print("C (    A  B  C  D  E  F  G  H     )")

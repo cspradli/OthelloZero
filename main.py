@@ -1,6 +1,6 @@
 from OthelloGame import OthelloGame as Game
 from OthelloLogic import Board
-from OthelloIO import get_char_col, translateX
+from OthelloIO import get_char_col, split_string
 
 if __name__ == "__main__":
     currentPlayer = 0
@@ -9,8 +9,11 @@ if __name__ == "__main__":
     bd = Board()
     g = Game()
     color = g.initColor()
-    print(get_char_col('b'))
-    """if color == -1:
+    g.display(bd)
+    #move = g.getMove(bd, color)
+    #g.executeMove(bd, -color, move)
+    #g.display(bd)
+    if color == -1:
         currentPlayer = ME
     else:
         currentPlayer = OPP
@@ -25,4 +28,4 @@ if __name__ == "__main__":
         g.display(bd)
         g.countNum(bd)
         currentPlayer = -1*currentPlayer #switch players     
-    g.countNum(bd)"""
+    g.countNum(bd)
