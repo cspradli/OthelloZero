@@ -1,3 +1,10 @@
+"""
+    OthelloZero: OthelloLogic
+    Author: Caleb Spradlin
+    Date: 27/09/19 
+    This file is the main logic file for the Othello system, given the right params, a 2-d board is set up and moves can be made/executed/etc
+"""
+
 import numpy as np
 
 class Board():
