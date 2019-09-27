@@ -47,7 +47,7 @@ class OthelloGame():
             if char == 'C':
                 return None
             elif char == 'n':
-                print("End game")
+                print("C End game")
             elif char == 'B' or char == 'W':
                 self.makeMove(board, color)
             elif char.isalpha() and char.islower():
@@ -66,7 +66,7 @@ class OthelloGame():
         if color == -1:
             out.append('B ')
         validMoves = board.generateMoves(color)
-        if len(validMoves) < 0:
+        if len(validMoves) <= 0:
             print(''.join(out))
             return None
         if len(validMoves) > 0:
@@ -108,8 +108,8 @@ class OthelloGame():
 
     def display(self, board):
         """ Display the board """
-        print("C (    A  B  C  D  E  F  G  H     )")
-        print("C (    ----------------------     )")
+        print("C (     A  B  C  D  E  F  G  H     )")
+        print("C (    ------------------------     )")
         for y in range(7,-1,-1):
             # Print the row number
             print("C (", str(y+1) + ' |', end = ''),
@@ -123,5 +123,5 @@ class OthelloGame():
                 else:
                     print(" . ", end = ''),
             print('| ' + str(y + 1), ")")
-        print("C (    ----------------------     )")
-        print("C (    A  B  C  D  E  F  G  H     )")
+        print("C (    ------------------------     )")
+        print("C (     A  B  C  D  E  F  G  H      )")
