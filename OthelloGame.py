@@ -9,6 +9,7 @@ from __future__ import print_function
 from OthelloLogic import Board
 from OthelloIO import get_col_char, get_char_col, split_string
 import numpy as np
+import random
 
 class OthelloGame():
 
@@ -17,7 +18,7 @@ class OthelloGame():
     
     def initColor(self):
         """ Init color based on input '| B' or '| W' must output """
-        inp = input()
+        inp = input('')
         if inp == '| B':
             gameColor = -1
             print("R B")
@@ -41,14 +42,15 @@ class OthelloGame():
     
     def getMove(self, board, color):
         """ Gets a move based on input """
-        inp = input()
+        inp = input('')
         iterList = iter(split_string(inp))
+        i = 0
         for char in split_string(inp):
             if char == 'C':
                 return None
             elif char == 'n':
                 print("C End game")
-            elif char == 'B' or char == 'W':
+            elif (char == 'B' and i == 0) or (char == 'W' and i == 0):
                 self.makeMove(board, color)
             elif char.isalpha() and char.islower():
                 x = get_char_col(char)
@@ -62,16 +64,17 @@ class OthelloGame():
         """Generates move and string to output """
         out = []
         if color == 1:
-            out.append('W ')
+            out.append('W')
         if color == -1:
-            out.append('B ')
+            out.append('B')
         validMoves = board.generateMoves(color)
         if len(validMoves) <= 0:
             print(''.join(out))
             return None
         if len(validMoves) > 0:
-            move = validMoves.pop()
+            move = random.choice(validMoves)
             x,y = move
+            out.append(' ')
             out.append(get_col_char(x))
             out.append(' ')
             out.append(str(y + 1))
