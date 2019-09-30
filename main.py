@@ -17,9 +17,6 @@ if __name__ == "__main__":
     g = Game()
     color = g.initColor()
     g.display(bd)
-    #move = g.getMove(bd, color)
-    #g.executeMove(bd, -color, move)
-    #g.display(bd)
     if color == -1:
         currentPlayer = ME
     else:
@@ -30,12 +27,14 @@ if __name__ == "__main__":
             move = g.makeMove(bd, color)
             if move is not None:
                 g.executeMove(bd, color, move)
+                currentPlayer = -1*currentPlayer #switch players  
         else:
             move = g.getMove(bd, -color)
             if move is not None:
                 g.executeMove(bd, -color, move)
+                currentPlayer = -1*currentPlayer #switch players  
         g.display(bd)
         g.countNum(bd)
-        currentPlayer = -1*currentPlayer #switch players     
+        #currentPlayer = -1*currentPlayer #switch players     
     print("C (Game over)")
     g.countNum(bd)

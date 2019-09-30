@@ -54,13 +54,26 @@ class Board():
                         continue
                     elif self.pieces[x][y] == 0:
                         break
-                    if self.pieces[x][y] == color and self.pieces[x-direcX][y-direcY] != 0 and self.pieces[x-direcX][y-direcY] != color:
-                        moveList.append(emptySquare)  
+                    if self.pieces[x][y] == color:
+                        if self.pieces[x-direcX][y-direcY] != 0:
+                            if self.pieces[x-direcX][y-direcY] != color:
+                                moveList.append(emptySquare)
+                        #moveList.append(emptySquare)  
         return moveList
 
     def makeFlips(self, color, direction, origin):
         #Gets a list of flips given color, direction, and origin
         flipList = [origin]
+        """for direction in self.directions:
+            flips = self.incrementMove(origin, direction)
+            for x,y in flips:
+                if self.pieces[x][y] == -color:
+                    flipList.append((x,y))
+                elif (self.pieces[x][y] == 0 or (self[x][y] == color and len(flipList) == 1)):
+                    break
+                elif self.pieces[x][y] == color and len(flipList) > 1:
+                    print("C (",flipList,")")
+                    return flipList"""
         flips = self.incrementMove(origin, direction)
         for x,y in flips:
             if self.pieces[x][y] == -color:
@@ -68,7 +81,7 @@ class Board():
             elif (self.pieces[x][y] == 0 or (self[x][y] == color and len(flipList) == 1)):
                 break
             elif self.pieces[x][y] == color and len(flipList) > 1:
-                print("(",flipList,")")
+                print("C (",flipList,")")
                 return flipList
         return []
 
@@ -77,7 +90,7 @@ class Board():
         for direction in self.directions:
             flipList = self.makeFlips(color, direction, move)
             if len(flipList) > 0:
-                flipMoves = flipList
+                flipMoves.extend(flipList)
         for x,y in flipMoves:
             self.pieces[x][y] = color
     

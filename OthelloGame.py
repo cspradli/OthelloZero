@@ -5,7 +5,6 @@
     This class is the driver of the board, gets and outputs to Logic class, as well as over checking and in/out operations
 """
 
-from __future__ import print_function
 from OthelloLogic import Board
 from OthelloIO import get_col_char, get_char_col, split_string
 import numpy as np
@@ -19,7 +18,7 @@ class OthelloGame():
     def initColor(self):
         """ Init color based on input '| B' or '| W' must output """
         inp = input('')
-        if inp == '| B':
+        if inp == 'I B':
             gameColor = -1
             print("R B")
         else:
@@ -43,26 +42,29 @@ class OthelloGame():
     def getMove(self, board, color):
         """ Gets a move based on input """
         inp = input('')
-        iterList = iter(split_string(inp))
+        #iterList = iter(split_string(inp))
         i = 0
         for char in split_string(inp):
             if char == 'C':
                 return None
             elif char == 'n':
                 print("C End game")
-            elif (char == 'B' and i == 0) or (char == 'W' and i == 0):
+            elif (char == 'B' and len(inp) == 1) or (char == 'W' and len(inp)==1):
                 self.makeMove(board, color)
             elif char.isalpha() and char.islower():
                 x = get_char_col(char)
             elif char.isnumeric():
                 y = int(char)-1
+            i = i + 1
         #print("C x = ", x, " y = ", y)
         return((x,y))
        
 
     def makeMove(self, board, color):
         """Generates move and string to output """
+        listMoves = list()
         out = []
+        outMove = []
         if color == 1:
             out.append('W')
         if color == -1:
@@ -72,6 +74,14 @@ class OthelloGame():
             print(''.join(out))
             return None
         if len(validMoves) > 0:
+            print("C Moves to choose")
+            for move in validMoves:
+                x,y = move
+                print("C ", color, end=' ')
+                print(get_col_char(x), end=' ')
+                print(str(y + 1))
+                listMoves.append(move)
+
             move = random.choice(validMoves)
             x,y = move
             out.append(' ')
