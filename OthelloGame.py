@@ -82,7 +82,10 @@ class OthelloGame():
                 print(str(y + 1))
                 listMoves.append(move)
 
-            move = random.choice(validMoves)
+            move = validMoves.pop()
+            for x in range(len(validMoves)):
+                if board.checkExecute(color, move) == False:
+                    move = validMoves.pop()
             x,y = move
             out.append(' ')
             out.append(get_col_char(x))

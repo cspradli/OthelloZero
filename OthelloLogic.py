@@ -43,11 +43,10 @@ class Board():
         moveList = list()
         for emptySquare in self.getEmptySquares():
             for direction in self.directions:
-                direcX, direcY = direction
+                directionX, directionY = direction
 
                 #Gets all possible moves no matter legality
                 possMoves = self.incrementMove(emptySquare, direction)
-
                 for move in possMoves:
                     x,y = move
                     if self.pieces[x][y] == -color:
@@ -55,8 +54,8 @@ class Board():
                     elif self.pieces[x][y] == 0:
                         break
                     if self.pieces[x][y] == color:
-                        if self.pieces[x-direcX][y-direcY] != 0:
-                            if self.pieces[x-direcX][y-direcY] != color:
+                        if self.pieces[x-directionX][y-directionY] != 0:
+                            if self.pieces[x-directionX][y-directionY] != color:
                                 moveList.append(emptySquare)
                         #moveList.append(emptySquare)  
         return moveList
@@ -64,16 +63,6 @@ class Board():
     def makeFlips(self, color, direction, origin):
         #Gets a list of flips given color, direction, and origin
         flipList = [origin]
-        """for direction in self.directions:
-            flips = self.incrementMove(origin, direction)
-            for x,y in flips:
-                if self.pieces[x][y] == -color:
-                    flipList.append((x,y))
-                elif (self.pieces[x][y] == 0 or (self[x][y] == color and len(flipList) == 1)):
-                    break
-                elif self.pieces[x][y] == color and len(flipList) > 1:
-                    print("C (",flipList,")")
-                    return flipList"""
         flips = self.incrementMove(origin, direction)
         for x,y in flips:
             if self.pieces[x][y] == -color:
@@ -85,8 +74,16 @@ class Board():
                 return flipList
         return []
 
+    def checkExecute(self, color, move):
+        for direction in self.directions:
+            dx, dy = direction
+            x,y = move
+            if self.pieces[x-dx][y-dy] == 0 or self.pieces[x-dx][y-dy] == color:
+                return False
+        return True
+
     def executeMove(self, color, move):
-        flipMoves = []
+        flipMoves = list()
         for direction in self.directions:
             flipList = self.makeFlips(color, direction, move)
             if len(flipList) > 0:
