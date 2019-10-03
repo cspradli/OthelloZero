@@ -5,8 +5,6 @@
     This file is the main logic file for the Othello system, given the right params, a 2-d board is set up and moves can be made/executed/etc
 """
 
-import numpy as np
-
 class Board():
     # All 8 directions for the agent to look/go
     directions = [(1,1), (1,0), (1,-1), (0,-1), (-1,-1), (-1, 0), (-1,1), (0,1)]
@@ -56,15 +54,18 @@ class Board():
                     if self.pieces[x][y] == color:
                         if self.pieces[x-directionX][y-directionY] != 0:
                             if self.pieces[x-directionX][y-directionY] != color:
-                                moveList.append(emptySquare)
+                                if len(self.makeFlips(color, direction, emptySquare)) > 0:
+                                    moveList.append(emptySquare)
                         #moveList.append(emptySquare)  
         return moveList
 
     def makeFlips(self, color, direction, origin):
         #Gets a list of flips given color, direction, and origin
-        flipList = [origin]
+        flipList = list()
+        flipList.append(origin)
         flips = self.incrementMove(origin, direction)
-        for x,y in flips:
+        for flip in flips:
+            x,y = flip
             if self.pieces[x][y] == -color:
                 flipList.append((x,y))
             elif (self.pieces[x][y] == 0 or (self[x][y] == color and len(flipList) == 1)):
@@ -79,6 +80,7 @@ class Board():
             dx, dy = direction
             x,y = move
             if self.pieces[x-dx][y-dy] == 0 or self.pieces[x-dx][y-dy] == color:
+                print("C FALSE MOVE- pick another")
                 return False
         return True
 

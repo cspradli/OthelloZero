@@ -7,7 +7,6 @@
 
 from OthelloLogic import Board
 from OthelloIO import get_col_char, get_char_col, split_string
-import numpy as np
 import random
 
 class OthelloGame():
@@ -36,8 +35,8 @@ class OthelloGame():
         if len(legal_moves) == 0:
             validMoves[-1]=1
             print("C (No valid moves)")
-            return np.array(validMoves)
-        return np.array(legal_moves)
+            return validMoves
+        return legal_moves
     
     def getMove(self, board, color):
         """ Gets a move based on input """
@@ -80,12 +79,7 @@ class OthelloGame():
                 print("C ", color, end=' ')
                 print(get_col_char(x), end=' ')
                 print(str(y + 1))
-                listMoves.append(move)
-
-            move = validMoves.pop()
-            for x in range(len(validMoves)):
-                if board.checkExecute(color, move) == False:
-                    move = validMoves.pop()
+            move = random.choice(validMoves)
             x,y = move
             out.append(' ')
             out.append(get_col_char(x))
