@@ -12,7 +12,6 @@ class Board():
     def __init__(self):
 
         #initializes 2-D array showing the pieces
-        print("C (Board init properly)")
         self.pieces = [None]*8
         for i in range(8):
             self.pieces[i] = [0]*8
@@ -65,8 +64,7 @@ class Board():
                         if self[x-directionX][y-directionY] != 0:
                             if self[x-directionX][y-directionY] != color:
                                 if len(self.makeFlips(color, direction, emptySquare)) > 0:
-                                    moveList.append(emptySquare)
-                        #moveList.append(emptySquare)  
+                                    moveList.append(emptySquare)  
         return moveList
 
     def makeFlips(self, color, direction, origin):
