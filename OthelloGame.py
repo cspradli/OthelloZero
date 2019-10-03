@@ -8,11 +8,41 @@
 from OthelloLogic import Board
 from OthelloIO import get_col_char, get_char_col, split_string
 import random
+import numpy as np
 
 class OthelloGame():
 
     def __init__(self):
         print("C (Othello initiated)")
+
+    def get_np_board(self, board):
+        """ return numpy board """
+        return np.array(board.pieces)
+    
+    def get_board_size(self):
+        """ returns size of board, currently static at 8x8 """
+        return (8, 8)
+
+    def get_action_size(self):
+        return (8*8)+1
+
+    def get_valid_np_moves(self, board, player):
+        """ returns fixed size binary vector """
+        valids = [0]*self.get_action_size()
+        legal_moves = board.generateMoves(player)
+        if len(legal_moves) == 0:
+            valids[-1]=1
+            return np.array(valids)
+        for move in legal_moves:
+            x, y = move
+            valids[8*x+y]=1
+        print("C", len(np.array(valids)), end='')
+        print(np.array(valids))
+        return np.array(valids)
+
+    def get_canonical_form(self, board, player):
+        """ Gets matrix form of board """
+        return player*np.array(board.pieces)
     
     def initColor(self):
         """ Init color based on input '| B' or '| W' must output """

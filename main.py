@@ -17,6 +17,9 @@ if __name__ == "__main__":
     g = Game()
     color = g.initColor()
     g.display(bd)
+    g.get_valid_np_moves(bd, color)
+    g.get_canonical_form(bd, color)
+    g.get_string_form(bd)
     if color == -1:
         currentPlayer = ME
     else:

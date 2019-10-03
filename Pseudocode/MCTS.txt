@@ -1,0 +1,34 @@
+import numpy as np
+import math
+import random
+
+EPS_WEIGHT_DECAY = 1e-8
+
+class run_mcts():
+
+    def __init__(self, game, nnet, args):
+        self.game = game
+        self.QVAL = {}
+        self.EdgeVisit = {}
+        self.SVisit = {}
+        self.Init_Policy = {}
+        self.Game_Ended = {}
+        self.Valid_State = {}
+    
+    def mct_search(self, canonical_board):
+        state = self.game.get_string_form(canonical_board)
+        if state not in self.SVisit:
+            self.SVisit[state] = self.game.is_game_over(canonical_board, 1)
+        if self.SVisit[state] != 0:
+            return -self.SVisit[state]
+
+        if state not in self.Init_Policy:
+            self.Init_Policy[state], value = self.neural_net.predict(canonical_board)
+            valids = self.game.get_valid_moves(canonical_board, 1)
+            self.Init_Policy[state] = self.Init_Policy[state]*valids
+            sum_policy_state = np.sum(self.Init_Policy[state])
+            if sum_policy_state > 0:
+                self.Init_Policy[state] /= sum_policy_state
+            else:
+                self.Init_Policy[state] = self.Init_Policy[state] + valids
+                self.Init_Policy[state]
