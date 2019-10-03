@@ -26,6 +26,10 @@ class OthelloGame():
     def get_action_size(self):
         return (8*8)+1
 
+    def get_score(self, board, player):
+        print("C (Difference: ", board.countDifference(player), ")")
+        return board.countDifference(player)
+
     def get_valid_np_moves(self, board, player):
         """ returns fixed size binary vector """
         valids = [0]*self.get_action_size()
@@ -137,7 +141,7 @@ class OthelloGame():
         countB = 0
         for y in range(8):
             for x in range(8):
-                piece = board.pieces[x][y]
+                piece = board[x][y]
                 if piece == -1:
                     countB += 1
                 elif piece == 1:
@@ -155,7 +159,7 @@ class OthelloGame():
             print("C (", str(y+1) + ' |', end = ''),
             for x in range(8):
                 # Get the piece to print
-                piece = board.pieces[x][y]
+                piece = board[x][y]
                 if piece == -1: 
                     print(" B ", end = ''),
                 elif piece == 1: 

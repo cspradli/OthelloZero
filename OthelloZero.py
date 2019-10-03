@@ -104,5 +104,85 @@ class ReplayBuffer(object):
             p = [len(g.history) / move_sum for g in self.buffer])
         game_pos = [(g, np.randint(len(g.history))) for g in games]
         return [(g.make_image(i), g.make_target(i)) for (g,i) in game_pos]
-        
+
+class Network(object):
+    
+    def inference(self, image):
+        return(-1, {})
+    
+    def get_weights(self):
+        return []
+
+class SharedStorage(object):
+
+    def __init__(self):
+        self.__networks = {}
+
+    def latest_network(self) -> Network:
+        if self.__networks:
+            return self.__networks[max(self.__networks.iterkeys())]
+        else:
+            return make_uniform_network()
+
+    def save_network(self, step: int, network: Network):
+        self.__networks[step] = network
+
+### END HELPER FUNCTIONS ###
+
+def OthelloZero(config: OthelloZeroConfig):
+    storage = SharedStorage()
+    replay_buffer = ReplayBuffer(config)
+
+    for i in range(config.num_actors):
+        launch_job(run_selfplay, config, storage, replay_buffer)
+
+    train_network(config, storage, replay_buffer)
+
+    return storage.latest_network()
+
+### SELF PLAY ###
+
+def run_selfplay(config: OthelloZeroConfig, storage: SharedStorage, replay_buffer: ReplayBuffer):
+    while True:
+        network = storage.latest_network
+        game = play_game(config, network)
+        replay_buffer.save_game(game)
+
+def play_game(config: OthelloZeroConfig, network: Network):
+    game = Game()
+    while not game.terminal() and len(game.history) < config.max_moves:
+        action, root = run_mcts(config, game, network)
+        game.apply(action)
+        game.store_search_stats(root)
+    return game
+
+def run_mcts(config: OthelloZeroConfig, game: Game, network: Network):
+    root = Node(0)
+    evaluate(root, game, network)
+    add_exploration_noise(config, root)
+
+    for i in range(config.num_simulations):
+        node = root
+        scratch_game = game.clone()
+        search_path = [node]
+
+        while node.expanded():
+            action, node = select_child(config, node)
+            scratch_game.apply(action)
+            search_path.append(node)
+
+        value = evaluate(node, scratch_game, network)
+        backpropagate(search_path, value, scratch_game.to_play())
+
+    return select_action(config, game, root), root
+
+def select_action(config: OthelloZeroConfig, game: Game, root: Node):
+    visit_counts = [(child.visit_count, action) for action, child in root.children.iteritems()]
+    if len(game.history) < config.num_sampling_moves:
+        _, action = softmax_sample(visit_counts)
+    else:
+        _, action = max(visit_counts)
+    return action
+
+
 
