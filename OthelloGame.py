@@ -70,7 +70,7 @@ class OthelloGame():
             validMoves[-1]=1
             print("C (No valid moves)")
             return validMoves
-        return legal_moves
+        return np.array(legal_moves)
     
     def getMove(self, board, color):
         """ Gets a move based on input """

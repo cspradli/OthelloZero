@@ -36,3 +36,20 @@ class MCTS():
         probability = [x/float(sum(counts)) for x in counts]
 
         return probability
+
+    def run_mcts(self, board):
+
+        state = self.game.get_canonical_form(board)
+        if state not in self.terminal:
+            self.terminal[state] = self.game.has_ended(board, 1)
+        if self.terminal[state] != 0:
+            return -self.terminal[state]
+        
+        if state not in self.policy:
+            self.policy[state], v = self.nnet.inference(board)
+            valids = self.game.get_valid_moves(board, 1)
+            self.policy[state] = self.policy[state] * valids
+            sum_policy_state = np.sum(self.policy[state])
+            if sum_policy_state > 0:
+                self.policy[state] /= sum_policy_state
+            
