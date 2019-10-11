@@ -94,4 +94,6 @@ def residual_tower():
 
             pol =tf.layers.conv2d(res_tow, 2, kernel_size = (1,1), strides=(1,1), name='pi', padding='same', use_bias=False)
             pol = tf.layers.batch_normalization(pol, axis=3, name='bn', training=self.isTraining)
-            
+            pol = tf.nn.relu(pol)
+            pol = tf.layers.flatten(pol, name="p_flat")
+            self.pi = tf.layers

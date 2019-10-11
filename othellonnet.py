@@ -126,3 +126,13 @@ class othellonnet():
         self.saver = tf.train.Saver()
         self.session = tf.Session()
         self.session.run(tf.global_variables_initializer)
+
+class nnet_wrap(object):
+    def __init__(self, game):
+        self.game = game
+        self.net = othellonnet(self.game)
+        self.sess = self.net.session
+
+    def predict(self, board):
+        board = board[np.newaxis, :, :]
+        pi, v = self.sess.run([self.net.pi, self.net.v], feed_dict={self.net.inputBoard}, self.net.isTraining = False)
