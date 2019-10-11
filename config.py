@@ -1,6 +1,7 @@
 class config(object):
 
     num_iterations = 4
+    num_channels = 10
     num_games = 30
     num_mcts_sims = 30
     c_puct = 1
