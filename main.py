@@ -16,11 +16,11 @@ if __name__ == "__main__":
     bd = Board()
     g = Game()
     color = g.initColor()
-    g.display(bd)
-    #g.get_valid_np_moves(bd, color)
+    #g.display(bd)
+    g.get_valid_np_moves(bd, color)
     #g.get_canonical_form(bd, color)
     #print(g.get_np_board(bd))
-    g.get_score(bd, color)
+    #g.get_score(bd, color)
     if color == -1:
         currentPlayer = ME
     else:
@@ -38,7 +38,8 @@ if __name__ == "__main__":
             if move is not None:
                 g.executeMove(bd, -color, move)
                 currentPlayer = -1*currentPlayer #switch players  
-        g.display(bd)
+        #g.display(bd)
+        g.get_canonical_form(bd, currentPlayer)
         g.countNum(bd)
         #currentPlayer = -1*currentPlayer #switch players     
     print("C (Game over)")
