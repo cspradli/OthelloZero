@@ -4,6 +4,7 @@ class config(object):
     num_channels = 10
     num_games = 30
     num_mcts_sims = 30
+    record_loss = 1
     c_puct = 1
     val = 0.0001
     momentum = 0.9
@@ -20,4 +21,5 @@ class config(object):
     num_eval_games: 12
     eval_win_rate = 0.55
     load_model = 1
+    loss_file = 'loss.txt'
     

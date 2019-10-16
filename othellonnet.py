@@ -10,6 +10,10 @@ import random
 import math
 import sys
 from config import config
+from tensorflow.python.util import deprecation
+deprecation._PRINT_DEPRECATION_WARNINGS = False
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 class othellonnet():
 
@@ -135,4 +139,40 @@ class nnet_wrap(object):
 
     def predict(self, board):
         board = board[np.newaxis, :, :]
-        pi, v = self.sess.run([self.net.pi, self.net.v], feed_dict={self.net.inputBoard}, self.net.isTraining = False)
+        pi, v = self.sess.run([self.net.pi, self.net.v], feed_dict={self.net.inputBoard: board, self.net.isTraining: False})
+        return pi[0], v[0][0]
+    
+    def train(self, data):
+        print("C training network")
+
+        for epoch in range(config.epochs):
+            print("C Epoch ", epoch+1)
+            example_num = len(data)
+            for i in range(0, example_num, config.batch_size):
+                board, pis, vs = map(list, zip(*data[i:i + config.batch_size]))
+                feed = {self.net.inputBoard: board,
+                        self.net.train_pis: pis,
+                        self.net.train_vs: vs, 
+                        self.net.isTraining: True}
+                self.sess.run(self.net.train_op, feed_dict=feed)
+
+                if config.record_loss:
+                    if not os.path.exists(config.models_direc):
+                        os.mkdir(config.models_direc)
+                    file_path = config.models_direc + config.loss_file
+
+                    with open(file_path, 'a') as loss_file:
+                        loss_file.write('%f|%f\n' % (pi_loss, v_loss))
+        print("\n")
+
+    def save_mod(self, file="current_model"):
+        if not os.path.exists(config.models_direc):
+            os.mkdir(config.models_direc)
+
+        file_path = config.models_direc + file
+        print("C saving model: ", file, "at", file_path)
+        self.net.saver.save(self.sess, file_path)
+
+    def load_mod(self, file="current_model"):
+        print("Loading model: ", file, "from", config.models_direc)
+        self.net.saver.restore(self.sess, file)
