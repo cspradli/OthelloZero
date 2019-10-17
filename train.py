@@ -29,4 +29,31 @@ class train():
             action = np.random.choice(len(pi), p=pi)
             board, self.curPlayer = self.game.get_next_state(board, self.curPlayer, action)
 
-            r = self.game.get_game_ended()
+            r = self.game.isNotOver(board, self.curPlayer)
+
+    def learn(self):
+        for i in range(1, config.num_iterations+1):
+            print('C -- ITER: ' + str(i) + '-- C')
+            if not self.skipfirst or i > 1:
+                iter_examples = deque([], maxlen=config.max_len_queue)
+                
+                for eps in range(config.num_episodes):
+                    self.mcts = MCTS(self.game, self.nnet)
+                    iter_examples += self.execute_ep
+
+                self.history.append(iter_examples)
+
+            if len(self.history) > config.num_iterations :
+                print("len(trainhistory)", len(self.history), "=> remove oldest from history")
+                self.history.pop(0)
+
+            self.save_examples(i-1)
+            trainExamples = []
+            for e in self.history:
+                trainExamples.extend(e)
+            shuffle(trainExamples)
+
+            self.nnet.save_mod(filename = 'tmp.pth.tar')
+            self.onet.load_mod(filename = 'tmp.pth.tar')
+            ocmts = MCTS(self.game, self.onet)
+            self.nnet.train(trainExamples)
