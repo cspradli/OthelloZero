@@ -17,7 +17,7 @@ if __name__ == "__main__":
     g = Game()
     color = g.initColor()
     #g.display(bd)
-    g.get_valid_np_moves(bd, color)
+    print("Valid moves: ", g.get_valid_np_moves(bd, color))
     #g.get_canonical_form(bd, color)
     #print(g.get_np_board(bd))
     #g.get_score(bd, color)

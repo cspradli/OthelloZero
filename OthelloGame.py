@@ -14,6 +14,7 @@ class OthelloGame():
 
     def __init__(self):
         print("C (Othello initiated)")
+        self.current_player = -1
 
     def get_np_board(self, board):
         """ return numpy board """
@@ -75,7 +76,6 @@ class OthelloGame():
     def getMove(self, board, color):
         """ Gets a move based on input """
         inp = input('')
-        #iterList = iter(split_string(inp))
         i = 0
         for char in split_string(inp):
             if char == 'C':
@@ -89,7 +89,6 @@ class OthelloGame():
             elif char.isnumeric():
                 y = int(char)-1
             i = i + 1
-        #print("C x = ", x, " y = ", y)
         return((x,y))
        
 
