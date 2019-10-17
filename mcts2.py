@@ -5,12 +5,25 @@ from config import config
 from OthelloGame import OthelloGame
 EPS_DECAY = 1e-8
 
+
+class Node(object):
+     def __init__(self, parent=None, action = None, psa = 0.0 game, nnet):
+
+        self.qval = 0.0
+        self.Wsa = 0.0          #Stores Q value for state, action
+        self.qsa = 0.0   #Stores the # o/times edge s,a was visited
+        self.psa = psa    #Stores # o/times board s was visited
+        self.policy = {}        #Stores initial policy(returned by nnet)
+
+        self.terminal = {}      #Stores terminal state
+        self.valid_moves = {}   #Stores get_valid_moves for board s
 class MCTS():
 
-    def __init__(self, game, nnet):
+    def __init__(self, game, nnet, args):
 
         self.game = game        #Game with board and functions
         self.nnet = nnet        #Neural net to use
+        self.args = args        #Args (legacy to config file)
 
         self.qval = {}          #Stores Q value for state, action
         self.edge_visit = {}    #Stores the # o/times edge s,a was visited
@@ -26,7 +39,7 @@ class MCTS():
 
             Returns: probability vector """
 
-        for i in range(config.num_mcts_sims):
+        for i in range(self.args.numMCTSRuns):
             self.search(board)
 
         state = board
@@ -87,19 +100,6 @@ class MCTS():
                     best_action = a
                 
         a = best_action
-        next_s, next_player = self.game.get_next_state(board, 1, a)
-        next_s = self.game.get_canonical_form(next_s, next_player)
-        v = self.run_mcts(next_s)
-
-        if (s,a) in self.qval:
-            self.qval[(s,a)] = (self.edge_visit[(s,a)] * self.qval[(s,a)] + v)/(self.edge_visit[(s,a)]+1)
-            self.edge_visit[(s,a)] += 1
-
-        else:
-            self.qval[(s,a)] = v
-            self.edge_visit[(s,a)] = 1
-
-        self.num_visit[s] += 1
-        return -v
+        next_s, next_player = self.game.get_next_state(self.game.get_canonical_form(board), )
 
                     

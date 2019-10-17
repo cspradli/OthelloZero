@@ -1,0 +1,32 @@
+from collections import deque
+from MCTS import MCTS
+import numpy as np
+import time, os, sys
+from random import shuffle
+from config import config
+
+class train():
+    def __init__(self, game, nnet, board):
+        self.game = game
+        self.nnet = nnet
+        self.board = board
+        self.onet = self.nnet.__class__(self.game)
+        self.mcts = MCTS(self.game, self.nnet)
+        self.history = []
+        self.skipfirst = False
+
+    def execute_ep(self):
+        trainExamples = []
+        board = self.board
+        self.curPlayer = 1
+        ep_step = 0
+
+        while True:
+            ep_step += 1
+            canonical_board = self.game.get_canonical_form(board, self.curPlayer)
+            tempVal = int(ep_step< config.temp_thresh)
+            pi = self.mcts.get_probability(canonical_board, temp=tempVal)
+            action = np.random.choice(len(pi), p=pi)
+            board, self.curPlayer = self.game.get_next_state(board, self.curPlayer, action)
+
+            r = self.game.get_game_ended()

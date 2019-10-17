@@ -25,9 +25,21 @@ class OthelloGame():
         return (8, 8)
 
     def get_action_size(self):
+        """ Returns the action size of the board """
         return (8*8)+1
 
+    def get_next_state(self, board, player, move):
+        if (action == 8*8):
+            return (board, player)
+        b = Board()
+        b.pieces = np.copy(board)
+        move =  (int(action/8), action%8)
+        b.executeMove(player, move)
+        return (b.pieces, -player)
+
+
     def get_score(self, board, player):
+        """ Counts difference from board class """
         print("C (Difference: ", board.countDifference(player), ")")
         return board.countDifference(player)
 
@@ -42,7 +54,6 @@ class OthelloGame():
             x, y = move
             valids[8*x+y]=1
         print("C", len(np.array(valids)), end='')
-        print(np.array(valids))
         return np.array(valids)
 
     def get_canonical_form(self, board, player):
@@ -63,7 +74,7 @@ class OthelloGame():
     def getActionState(self):
         return ((8*8)+1)
     
-    def getValidMoves(self, board, player):
+    def get_valid_moves(self, board, player):
         """ Gets all valid move given a board and player """
         validMoves = [0]*self.getActionState()
         legal_moves = board.generateMoves(player)
@@ -72,7 +83,7 @@ class OthelloGame():
             print("C (No valid moves)")
             return validMoves
         return np.array(legal_moves)
-    
+
     def getMove(self, board, color):
         """ Gets a move based on input """
         inp = input('')
