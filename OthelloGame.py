@@ -131,6 +131,11 @@ class OthelloGame():
             out.append(str(y + 1))
             print(''.join(out))
             return move
+    
+    
+    def get_v_moves(self, board, color):
+        list_move = board.generateMoves(color)
+        return list_move
 
     def executeMove(self, board, color, move):
         """ Executes move based on inputs given """
