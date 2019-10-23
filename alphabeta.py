@@ -33,7 +33,7 @@ class alphabeta(object):
         return fin_move
 
     def minmax(self, board, color, move_n, tr, to, ply_alpha):
-        moves = game.get_v_moves(board, color)
+        moves = OthelloGame.get_v_moves(board, color)
         if move_n > 7 and move_n < 15:
             self.ply_max = 2
         if tr < 20:
@@ -54,3 +54,111 @@ class alphabeta(object):
                 return_move = move
         
         return (best_score, return_move)
+    
+    def max_score(self, board, color, move_n, ply):
+        moves = OthelloGame.get_v_moves(board, color)
+        if ply == 0:
+            return self.hur(board, color)
+        bestscore = -self.INF
+        for move in moves:
+            newboard = deepcopy(board)
+            newboard.execute_move(color, move)
+            score = self.min_score(newboard, -color, move_n, ply-1)
+            if score > bestscore:
+                bestscore = score
+        return bestscore
+
+    def min_score(self, board, color, move_n, ply):
+        moves = OthelloGame.get_v_moves(board, color)
+        if ply == 0:
+            return self.hur(board, color)
+        bestscore = self.INF
+        for move in moves:
+            if move in self.nodes:
+                self.dups += 1
+            if move not in self.nodes:
+                self.nodes.append(move)
+            newboard = deepcopy(board)
+            newboard.execute_move(color, move)
+            score = self.max_score(board, -color, move_n, ply-1)
+            if score < bestscore:
+                bestscore = score
+        return bestscore
+
+    def alphabeta(self, board, color, move_n, tr, to, ply):
+        moves = OthelloGame.get_v_moves(board, color)
+        if not isinstance(moves, list):
+            score = board.count(color)
+            return score, None
+        
+        return_move = moves[0]
+        best_score = self.INF
+        if tr < 5:
+            return(0, max(moves, key=lambda move: self.greedy(board, color, move)))
+        for move in moves:
+            newboard = deepcopy(board)
+            newboard.execute_move(color, move)
+            self.branch_fact[0] += 1
+            score = self.min_score_alpha(newboard, -color, move_n, ply-1, -self.INF, self.INF)
+            if score > best_score:
+                best_score = score
+                return_move = move
+        return (best_score, return_move)
+
+    def max_score_alpha(self, board, color, move_n, ply, alpha, beta):
+        if ply == 0:
+            return self.hur(board, color)
+        best_score = -self.INF
+        for move in OthelloGame.get_v_moves(board, color):
+            newboard = deepcopy(board)
+            newboard.execute_move(color, move)
+            score = self.min_score_alpha(newboard, -color, move_n, ply-1, alpha, beta)
+            if score > best_score:
+                best_score = score
+            if best_score >= beta:
+                return best_score
+            alpha = max(alpha, best_score)
+
+        return best_score
+    
+    def min_score_alpha(self, board, color, move_n, ply, alpha, beta):
+        if ply == 0:
+            return self.hur(board, color)
+        best_score = self.INF
+        for move in OthelloGame.get_v_moves(board, color):
+            newboard = deepcopy(board)
+            newboard.execute_move(color, move)
+            score = self.max_score_alpha(newboard, -color, move_n, ply-1, alpha, beta)
+            if score < best_score:
+                best_score = score
+            if best_score <= alpha:
+                return best_score
+            beta = min(alpha, best_score)
+
+        return best_score
+
+    def hur(self, board, color):
+        return 2* self.corn(color, board) + 3*self.cost(board, color)
+
+    def corn(self, color, board):
+        tot = 0
+        i = 0
+        while i < 64:
+            if board.pieces[i/8][i%8] == color:
+                tot += self.WEIGHTS[i]
+            if board.pieces[i/8][i%8] == -color:
+                tot -= self.WEIGHTS[i]
+            i += 1
+        return tot
+
+    def greedy(self, board, color, move):
+        newboard = deepcopy(board)
+        newboard.execute_move(move, color)
+        num_op = len(newboard.get_square(color+-1))
+        num_me = len(newboard.get_square(color))
+        return num_me-num_op
+    
+    def cost(self, board, color):
+        num_op = board.countDifferences(-color)
+        num_me = board.countDifferences(color)
+        return num_me-num_op

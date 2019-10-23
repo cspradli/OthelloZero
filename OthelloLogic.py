@@ -26,6 +26,18 @@ class Board():
         """Add indexing ability of board"""
         return self.pieces[index]   
     
+    
+    def get_squares(self):
+        squares = list
+        for y in range(8):
+            for x in range(8):
+                if self[x][y] == color:
+                    squares.append((x,y))
+                if self[x][y] == -color:
+                    squares.append((x,y))
+        return squares
+
+
     def countDifference(self, color):
         count = 0
         for y in range(8):

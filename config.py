@@ -23,4 +23,5 @@ class config(object):
     eval_win_rate = 0.55
     load_model = 1
     loss_file = 'loss.txt'
+    max_len_queue = 12
     

@@ -57,3 +57,5 @@ class train():
             self.onet.load_mod(filename = 'tmp.pth.tar')
             ocmts = MCTS(self.game, self.onet)
             self.nnet.train(trainExamples)
+            nmcts = MCTS(self.game, self.nnet)
+            

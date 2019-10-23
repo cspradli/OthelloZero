@@ -7,6 +7,7 @@
 
 from OthelloLogic import Board
 from OthelloIO import get_col_char, get_char_col, split_string
+from alphabeta import alphabeta
 import random
 import numpy as np
 
@@ -15,7 +16,8 @@ class OthelloGame():
     def __init__(self):
         print("C (Othello initiated)")
         self.current_player = -1
-
+        self.game_time = 300.00
+        self.time = {-1: self.game_time, 1: self.game_time}
     def get_np_board(self, board):
         """ return numpy board """
         return np.array(board.pieces)
@@ -84,6 +86,18 @@ class OthelloGame():
             return validMoves
         return np.array(legal_moves)
 
+    def makeMoveTwo(self, board, color, engine, move_n, time):
+        leg_moves = self.get_v_moves(board, color)
+        if not leg_moves:
+            return None
+        elif len(leg_moves) == 1:
+            return leg_moves[0]
+        else:
+            move = alphabeta.get_move(board, color, move_n, time[color], time[-color])
+            if move not in leg_moves:
+                raise LookupError(color)
+            return move
+
     def getMove(self, board, color):
         """ Gets a move based on input """
         inp = input('')
@@ -123,7 +137,7 @@ class OthelloGame():
                 print("C ", color, end=' ')
                 print(get_col_char(x), end=' ')
                 print(str(y + 1))
-            move = random.choice(validMoves)
+            move = self.makeMoveTwo(board, color, alphabeta, move_n, time)
             x,y = move
             out.append(' ')
             out.append(get_col_char(x))
