@@ -1,7 +1,7 @@
 """
     OthelloZero: main
     Author: Caleb Spradlin
-    Date: 27/09/19
+    Date: 25/10/19
     This file contains the main driver for the OthelloZero system, intiializes a board, and a game to run the board
 """
 import argparse, copy, signal, sys, timeit, imp

@@ -33,17 +33,6 @@ class OthelloGame():
                 raise LookupError(color)
 
             return move
-    
-    def initColor(self):
-        """ Init color based on input '| B' or '| W' must output """
-        inp = input('')
-        if inp == 'I B':
-            gameColor = -1
-            print("R B")
-        else:
-            gameColor = 1
-            print("R W")
-        return gameColor
 
     def input_move(self, board, color):
         """ Gets a move based on input """
@@ -96,6 +85,16 @@ class OthelloGame():
 
 
     ### -------    HELPER FUNCTIONS -------   ####
+    def initColor(self):
+        """ Init color based on input '| B' or '| W' must output """
+        inp = input('')
+        if inp == 'I B':
+            gameColor = -1
+            print("R B")
+        else:
+            gameColor = 1
+            print("R W")
+        return gameColor
 
     def get_score(self, board, player):
         """ Counts difference from board class """

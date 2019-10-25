@@ -1,3 +1,10 @@
+"""
+    OthelloZero: Alpha-Beta
+    Author: Caleb Spradlin
+    Date: 25/10/19
+    This file contains the AB search engine
+"""
+
 from __future__ import absolute_import
 from copy import deepcopy
 import random
