@@ -8,8 +8,9 @@
 from OthelloGame import OthelloGame as Game
 from OthelloLogic import Board
 from OthelloIO import get_char_col, split_string
-
+from alphabeta import alphabeta
 if __name__ == "__main__":
+    ab = alphabeta()
     currentPlayer = 0
     ME = 1
     OPP = -1
@@ -28,7 +29,7 @@ if __name__ == "__main__":
 
     while g.isNotOver is not False:
         if currentPlayer == ME:
-            move = g.makeMove(bd, color)
+            move = g.makeMove(bd, color, ab)
             g.get_score(bd, color)
             if move is not None:
                 g.executeMove(bd, color, move)

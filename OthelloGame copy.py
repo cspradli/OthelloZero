@@ -34,12 +34,50 @@ class OthelloGame():
                 raise LookupError(color)
 
             return move
+    
+    def get_np_board(self, board):
+        """ return numpy board """
+        return np.array(board.pieces)
+    
+    def get_board_size(self):
+        """ returns size of board, currently static at 8x8 """
+        return (8, 8)
+
+    def get_action_size(self):
+        """ Returns the action size of the board """
+        return (8*8)+1
+
+    def get_next_state(self, board, player, move):
+        if (action == 8*8):
+            return (board, player)
+        b = Board()
+        b.pieces = np.copy(board)
+        move =  (int(action/8), action%8)
+        b.executeMove(player, move)
+        return (b.pieces, -player)
 
 
     def get_score(self, board, player):
         """ Counts difference from board class """
         print("C (Difference: ", board.countDifference(player), ")")
         return board.countDifference(player)
+
+    def get_valid_np_moves(self, board, player):
+        """ returns fixed size binary vector """
+        valids = [0]*self.get_action_size()
+        legal_moves = board.generateMoves(player)
+        if len(legal_moves) == 0:
+            valids[-1]=1
+            return np.array(valids)
+        for move in legal_moves:
+            x, y = move
+            valids[8*x+y]=1
+        print("C", len(np.array(valids)), end='')
+        return np.array(valids)
+
+    def get_canonical_form(self, board, player):
+        """ Gets matrix form of board """
+        return player*np.array(board.pieces)
     
     def initColor(self):
         """ Init color based on input '| B' or '| W' must output """
@@ -51,6 +89,31 @@ class OthelloGame():
             gameColor = 1
             print("R W")
         return gameColor
+
+    def getActionState(self):
+        return ((8*8)+1)
+    
+    def get_valid_moves(self, board, player):
+        """ Gets all valid move given a board and player """
+        validMoves = [0]*self.getActionState()
+        legal_moves = board.generateMoves(player)
+        if len(legal_moves) == 0:
+            validMoves[-1]=1
+            print("C (No valid moves)")
+            return validMoves
+        return np.array(legal_moves)
+
+    def makeMoveTwo(self, board, color, engine, move_n, time):
+        leg_moves = self.get_v_moves(board, color)
+        if not leg_moves:
+            return None
+        elif len(leg_moves) == 1:
+            return leg_moves[0]
+        else:
+            move = alphabeta.get_move(board, color, move_n, time[color], time[-color])
+            if move not in leg_moves:
+                raise LookupError(color)
+            return move
 
     def getMove(self, board, color):
         """ Gets a move based on input """
