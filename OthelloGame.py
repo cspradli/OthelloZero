@@ -4,12 +4,11 @@
     Date: 27/09/19
     This class is the driver of the board, gets and outputs to Logic class, as well as over checking and in/out operations
 """
-import argparse, copy, signal, sys, timeit, imp
 from OthelloLogic import Board
 from OthelloIO import get_col_char, get_char_col, split_string
-from alphabeta import alphabeta
 import random
 import numpy as np
+import copy
 
 class OthelloGame():
 
@@ -34,12 +33,6 @@ class OthelloGame():
                 raise LookupError(color)
 
             return move
-
-
-    def get_score(self, board, player):
-        """ Counts difference from board class """
-        print("C (Difference: ", board.countDifference(player), ")")
-        return board.countDifference(player)
     
     def initColor(self):
         """ Init color based on input '| B' or '| W' must output """
@@ -52,7 +45,7 @@ class OthelloGame():
             print("R W")
         return gameColor
 
-    def getMove(self, board, color):
+    def input_move(self, board, color):
         """ Gets a move based on input """
         inp = input('')
         i = 0
@@ -71,7 +64,7 @@ class OthelloGame():
         return((x,y))
        
 
-    def makeMove(self, board, color, engine):
+    def makeMove(self, board, color, engine, time):
         """Generates move and string to output """
         listMoves = list()
         out = []
@@ -91,7 +84,7 @@ class OthelloGame():
                 print("C ", color, end=' ')
                 print(get_col_char(x), end=' ')
                 print(str(y + 1))
-            move = self.makeMoveTwo(board, color, alphabeta, time)
+            move = self.get_move(board, engine, color, time)
             x,y = move
             out.append(' ')
             out.append(get_col_char(x))
@@ -100,8 +93,16 @@ class OthelloGame():
             print(''.join(out))
             return move
     
-    
-    def get_v_moves(self, board, color):
+
+
+    ### -------    HELPER FUNCTIONS -------   ####
+
+    def get_score(self, board, player):
+        """ Counts difference from board class """
+        print("C (Difference: ", board.countDifference(player), ")")
+        return board.countDifference(player)
+
+    def get_v_moves(board, color):
         list_move = board.generateMoves(color)
         return list_move
 

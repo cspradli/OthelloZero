@@ -2,6 +2,7 @@ from __future__ import absolute_import
 from copy import deepcopy
 import random
 from OthelloLogic import Board
+from OthelloGame import OthelloGame
 class alphabeta(object):
 
     def __init__(self):
@@ -43,7 +44,7 @@ class alphabeta(object):
 
         for move in moves:
             newboard= deepcopy(board)
-            newboard.execute_move(color, move)
+            newboard.executeMove(color, move)
             score = self.min_score(newboard, -color, self.ply_max-1)
             if score > best_score:
                 best_score = score
@@ -58,7 +59,7 @@ class alphabeta(object):
         bestscore = -self.INF
         for move in moves:
             newboard = deepcopy(board)
-            newboard.execute_move(color, move)
+            newboard.executeMove(color, move)
             score = self.min_score(newboard, -color, ply-1)
             if score > bestscore:
                 bestscore = score
@@ -75,7 +76,7 @@ class alphabeta(object):
             if move not in self.nodes:
                 self.nodes.append(move)
             newboard = deepcopy(board)
-            newboard.execute_move(color, move)
+            newboard.executeMove(color, move)
             score = self.max_score(board, -color, ply-1)
             if score < bestscore:
                 bestscore = score
@@ -93,7 +94,7 @@ class alphabeta(object):
             return(0, max(moves, key=lambda move: self.greedy(board, color, move)))
         for move in moves:
             newboard = deepcopy(board)
-            newboard.execute_move(color, move)
+            newboard.executeMove(color, move)
             self.branch_fact[0] += 1
             score = self.min_score_alpha(newboard, -color, ply-1, -self.INF, self.INF)
             if score > best_score:
@@ -107,7 +108,7 @@ class alphabeta(object):
         best_score = -self.INF
         for move in OthelloGame.get_v_moves(board, color):
             newboard = deepcopy(board)
-            newboard.execute_move(color, move)
+            newboard.executeMove(color, move)
             score = self.min_score_alpha(newboard, -color, ply-1, alpha, beta)
             if score > best_score:
                 best_score = score
@@ -123,7 +124,7 @@ class alphabeta(object):
         best_score = self.INF
         for move in OthelloGame.get_v_moves(board, color):
             newboard = deepcopy(board)
-            newboard.execute_move(color, move)
+            newboard.executeMove(color, move)
             score = self.max_score_alpha(newboard, -color, ply-1, alpha, beta)
             if score < best_score:
                 best_score = score
@@ -140,21 +141,22 @@ class alphabeta(object):
         tot = 0
         i = 0
         while i < 64:
-            if board.pieces[i/8][i%8] == color:
+            if board.pieces[i//8][i%8] == color:
                 tot += self.WEIGHTS[i]
-            if board.pieces[i/8][i%8] == -color:
+            if board.pieces[i//8][i%8] == -color:
                 tot -= self.WEIGHTS[i]
             i += 1
         return tot
 
     def greedy(self, board, color, move):
         newboard = deepcopy(board)
-        newboard.execute_move(move, color)
+        newboard.executeMove(move, color)
         num_op = len(newboard.get_square(color+-1))
         num_me = len(newboard.get_square(color))
         return num_me-num_op
     
     def cost(self, board, color):
-        num_op = board.countDifferences(-color)
-        num_me = board.countDifferences(color)
+        num_op, num_me = OthelloGame.countNum(board)
+        #num_op = board.countDifferences(-color)
+        #num_me = board.countDifferences(color)
         return num_me-num_op
