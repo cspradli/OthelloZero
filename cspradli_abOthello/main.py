@@ -36,8 +36,9 @@ if __name__ == "__main__":
             g.get_score(bd, color)
             if move is not None:
                 g.executeMove(bd, color, move)
-                currentPlayer = -1*currentPlayer #switch players  
+                #currentPlayer = -1*currentPlayer #switch players  
                 #g.display(bd)
+            currentPlayer = -1*currentPlayer
         else:
             start_time = timeit.default_timer()
             move = g.makeMove(bd, -color, ab, time)
@@ -48,10 +49,11 @@ if __name__ == "__main__":
             #move = g.input_move(bd, -color)
             if move is not None:
                 g.executeMove(bd, -color, move)
-                currentPlayer = -1*currentPlayer #switch players  
+                #currentPlayer = -1*currentPlayer #switch players  
                 #g.display(bd)
+            currentPlayer = -1*currentPlayer 
         g.display(bd)
         g.countNum(bd)
-        input('Enter to continue')
+        #input('Enter to continue')
     print("C (Game over)")
     g.countNum(bd)

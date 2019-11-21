@@ -80,7 +80,7 @@ class Board():
                                 if len(self.makeFlips(color, direction, emptySquare)) > 0:
                                     moveList.append(emptySquare)
                                     moveSet.add(emptySquare)  
-        print(moveSet)
+        #print(moveSet)
         return list(moveSet)
 
     def makeFlips(self, color, direction, origin):
@@ -95,7 +95,7 @@ class Board():
             elif (self[x][y] == 0 or (self[x][y] == color and len(flipList) == 1)):
                 break
             elif self[x][y] == color and len(flipList) >= 1:
-                print("C (",flipList,")", color)
+                #print("C (",flipList,")", color)
                 return flipList
         return []
 
