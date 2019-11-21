@@ -44,7 +44,7 @@ class train():
                 self.history.append(iter_examples)
 
             if len(self.history) > config.num_iterations :
-                print("len(trainhistory)", len(self.history), "=> remove oldest from history")
+                print("C len(trainhistory)", len(self.history), "=> remove oldest from history")
                 self.history.pop(0)
 
             self.save_examples(i-1)

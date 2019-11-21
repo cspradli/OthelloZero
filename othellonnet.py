@@ -17,11 +17,10 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 class othellonnet():
 
-    def __init__(self, game, args):
+    def __init__(self, game):
 
-        self.board_X, self.board_Y = game.getBoardSize()
-        self.action_size = game.getActionSize()
-        self.args = args
+        self.board_X, self.board_Y = (8, 8)
+        self.action_size = (8*8)+1
         self.graph = tf.Graph()
         
         with self.graph.as_default():

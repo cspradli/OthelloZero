@@ -9,6 +9,8 @@ from OthelloGame import OthelloGame as Game
 from OthelloLogic import Board
 from OthelloIO import get_char_col, split_string
 from alphabeta import alphabeta
+from train import train
+from othellonnet import nnet_wrap
 if __name__ == "__main__":
 
     ab = alphabeta()
@@ -17,6 +19,9 @@ if __name__ == "__main__":
     OPP = -1
     bd = Board()
     g = Game()
+    nnet = nnet_wrap(g)
+    tr = train(g, nnet, bd)
+    tr.learn()
     color = g.initColor()
     g.display(bd)
     game_time = 300.0

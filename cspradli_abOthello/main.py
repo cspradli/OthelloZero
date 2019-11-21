@@ -39,7 +39,13 @@ if __name__ == "__main__":
                 currentPlayer = -1*currentPlayer #switch players  
                 #g.display(bd)
         else:
-            move = g.input_move(bd, -color)
+            start_time = timeit.default_timer()
+            move = g.makeMove(bd, -color, ab, time)
+            end_time  = timeit.default_timer()
+            time[-color] -= round(end_time - start_time, 1)
+            g.get_score(bd, -color)
+
+            #move = g.input_move(bd, -color)
             if move is not None:
                 g.executeMove(bd, -color, move)
                 currentPlayer = -1*currentPlayer #switch players  
