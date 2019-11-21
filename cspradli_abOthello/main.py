@@ -54,6 +54,10 @@ if __name__ == "__main__":
             currentPlayer = -1*currentPlayer 
         g.display(bd)
         g.countNum(bd)
+        if len(bd.getEmptySquares()) < 1:
+            print("GAME OVER")
+            g.countNum(bd)
+            exit(1)
         #input('Enter to continue')
     print("C (Game over)")
     g.countNum(bd)
