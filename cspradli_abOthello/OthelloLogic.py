@@ -28,7 +28,7 @@ class Board():
     
     
     def get_squares(self):
-        squares = list
+        squares = list()
         for y in range(8):
             for x in range(8):
                 if self[x][y] == color:
@@ -60,12 +60,14 @@ class Board():
     def generateMoves(self, color):
         """ Generates move based off of all empty quares, takes color in the form of -1,1 """
         moveList = list()
+        moveSet = set()
         for emptySquare in self.getEmptySquares():
             for direction in self.directions:
                 directionX, directionY = direction
 
                 #Gets all possible moves no matter legality
                 possMoves = self.incrementMove(emptySquare, direction)
+                #print(possMoves)
                 for move in possMoves:
                     x,y = move
                     if self[x][y] == -color:
@@ -76,8 +78,10 @@ class Board():
                         if self[x-directionX][y-directionY] != 0:
                             if self[x-directionX][y-directionY] != color:
                                 if len(self.makeFlips(color, direction, emptySquare)) > 0:
-                                    moveList.append(emptySquare)  
-        return moveList
+                                    moveList.append(emptySquare)
+                                    moveSet.add(emptySquare)  
+        print(moveSet)
+        return list(moveSet)
 
     def makeFlips(self, color, direction, origin):
         #Gets a list of flips given color, direction, and origin
@@ -90,8 +94,8 @@ class Board():
                 flipList.append((x,y))
             elif (self[x][y] == 0 or (self[x][y] == color and len(flipList) == 1)):
                 break
-            elif self[x][y] == color and len(flipList) > 1:
-                #print("C (",flipList,")")
+            elif self[x][y] == color and len(flipList) >= 1:
+                print("C (",flipList,")", color)
                 return flipList
         return []
 

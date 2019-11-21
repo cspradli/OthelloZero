@@ -52,5 +52,6 @@ if __name__ == "__main__":
                 #g.display(bd)
         g.display(bd)
         g.countNum(bd)
+        input('Enter to continue')
     print("C (Game over)")
     g.countNum(bd)
